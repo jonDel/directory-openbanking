@@ -75,7 +75,8 @@ export default {
   created() {
     Loading.show(
         {
-          message: '<div class="text-h5 text-dark">Carregando dados da API...<div/>',
+          message: '<div class="text-h5 text-dark">Carregando dados das organizações...<div/>',
+          html: true,
           spinnerColor: "primary",
           backgroundColor: "dark",
           spinnerSize: 140,
