@@ -45,6 +45,7 @@
                   <th class="text-left">CustomerFriendlyDescription</th>
                   <th class="text-left">CustomerFriendlyLogoUri</th>
                   <th class="text-left">OpenIDDiscoveryDocument</th>
+                  <th class="text-left">AuthorisationServerId</th>
                 </tr>
               </thead>
               <tbody>
@@ -55,6 +56,7 @@
                   <img :src="props.row.CustomerFriendlyLogoUri" :alt="props.row.CustomerFriendlyLogoUri" width="200" height="240">
                   </td>
                   <td class="text-left">{{ props.row.OpenIDDiscoveryDocument }}</td>
+                  <td class="text-left">{{ props.row.AuthorisationServerId }}</td>
                 </tr>
               </tbody>
             </q-markup-table>              
