@@ -3,8 +3,8 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar square size="100%">
-            <img src="~assets/banri_logo_transp.png">
+          <q-avatar square size="120%">
+            <img src="~assets/bank.svg">
           </q-avatar>
           Consulta ao diretório do Open Banking
         </q-toolbar-title>
