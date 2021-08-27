@@ -104,9 +104,9 @@ export function filterData(data) {
     }
   }
   return {
-    phaseOneAuthServers: phaseOneAuthServers,
-    phaseTwoAuthServers: phaseTwoAuthServers,
-    phaseThreeAuthServers: phaseThreeAuthServers,
+    phaseOneAuthServers: phaseOneAuthServers.sort((a, b) => a.CustomerFriendlyName > b.CustomerFriendlyName && 1 || -1),
+    phaseTwoAuthServers: phaseTwoAuthServers.sort((a, b) => a.CustomerFriendlyName > b.CustomerFriendlyName && 1 || -1),
+    phaseThreeAuthServers: phaseThreeAuthServers.sort((a, b) => a.CustomerFriendlyName > b.CustomerFriendlyName && 1 || -1),
   }
 }
 
