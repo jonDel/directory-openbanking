@@ -88,7 +88,6 @@ export default {
     ).then(response => {
       // JSON responses are automatically parsed.
       this.data = filterData(response.data)
-      console.log(this.data)
       this.loading = false;
       Loading.hide()
     })
