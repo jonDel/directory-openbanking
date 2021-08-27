@@ -68,7 +68,7 @@ const phaseThreeData = {
   orgDomainRoleClaims: ['PAGTO']
 }
 
-const directoryApiUrl = 'https://data.directory.openbankingbrasil.org.br/participants'
+const directoryApiUrl = 'https://us-central1-directory-openbanking.cloudfunctions.net/datadirectoryproxy'
 
 export function filterData(data) {
   let phaseOneAuthServers = []
