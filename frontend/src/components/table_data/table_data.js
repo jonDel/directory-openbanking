@@ -6,6 +6,7 @@ export {
 }
 
 
+const directoryApiUrl = 'https://us-central1-directory-openbanking.cloudfunctions.net/datadirectoryproxy'
 const phaseOneData = {
   title: 'Marcas participantes da primeira fase do OpenBanking'
   ,
@@ -23,9 +24,9 @@ const phaseOneData = {
   familyTypesCombs: [
     ['discovery', 'channels', 'products-services', 'admin']
   ],
+  familyTypes: ['discovery', 'channels', 'products-services', 'admin'],
   orgDomainRoleClaims: ['DADOS']
 }
-
 const phaseTwoData = {
   title: 'Marcas participantes da segunda fase do OpenBanking'
   ,
@@ -45,9 +46,9 @@ const phaseTwoData = {
     ['consents', 'resources', 'customers-business'],
     ['consents', 'resources', 'customers-personal']
   ],
+  familyTypes: ['consents', 'resources', 'customers-business', 'customers-personal'],
   orgDomainRoleClaims: ['DADOS']
 }
-
 const phaseThreeData = {
   title: 'Marcas participantes da terceira fase do OpenBanking'
   ,
@@ -65,10 +66,10 @@ const phaseThreeData = {
   familyTypesCombs: [
     ['payment-consents', 'payments-pix']
   ],
+  familyTypes: ['payment-consents', 'payments-pix'],
   orgDomainRoleClaims: ['PAGTO']
 }
 
-const directoryApiUrl = 'https://us-central1-directory-openbanking.cloudfunctions.net/datadirectoryproxy'
 
 export function filterData(data) {
   let phaseOneAuthServers = []
@@ -86,20 +87,31 @@ export function filterData(data) {
     for (const authServer of org.AuthorisationServers) {
       let phases = getPhase(authServer.ApiResources)
       let authData = {}
-      authData['ApiResources'] = authServer.ApiResources
       authData['CustomerFriendlyName'] = authServer.CustomerFriendlyName
       authData['CustomerFriendlyDescription'] = authServer.CustomerFriendlyDescription
       authData['CustomerFriendlyLogoUri'] = authServer.CustomerFriendlyLogoUri
       authData['OpenIDDiscoveryDocument'] = authServer.OpenIDDiscoveryDocument
       authData['AuthorisationServerId'] = authServer.AuthorisationServerId
       if (phases.phaseOne) {
-        phaseOneAuthServers.push(authData)
+        let authDataPhaseOne = JSON.parse(JSON.stringify(authData))
+        authDataPhaseOne["ApiResources"] = authServer.ApiResources.filter(
+          resource => phaseOneData.familyTypes.includes(resource.ApiFamilyType)
+        )
+        phaseOneAuthServers.push(authDataPhaseOne)
       }
       if (phases.phaseTwo) {
-        phaseTwoAuthServers.push(authData)
+        let authDataPhaseTwo = JSON.parse(JSON.stringify(authData))
+        authDataPhaseTwo["ApiResources"] = authServer.ApiResources.filter(
+          resource => phaseTwoData.familyTypes.includes(resource.ApiFamilyType)
+        )
+        phaseTwoAuthServers.push(authDataPhaseTwo)
       }
       if (phases.phaseThree) {
-        phaseThreeAuthServers.push(authData)
+        let authDataPhaseThree = JSON.parse(JSON.stringify(authData))
+        authDataPhaseThree["ApiResources"] = authServer.ApiResources.filter(
+          resource => phaseThreeData.familyTypes.includes(resource.ApiFamilyType)
+        )
+        phaseThreeAuthServers.push(authDataPhaseThree)
       }
     }
   }
@@ -109,6 +121,7 @@ export function filterData(data) {
     phaseThreeAuthServers: phaseThreeAuthServers.sort((a, b) => a.CustomerFriendlyName > b.CustomerFriendlyName && 1 || -1),
   }
 }
+
 
 function getPhase(apiResources) {
   let phases = {
@@ -128,6 +141,7 @@ function getPhase(apiResources) {
   }
   return phases
 }
+
 
 function checkIfFamilyInPhase(familyPhaseComb, family) {
   let isSubset = false
