@@ -9,6 +9,7 @@
       :filter="filter"
       :dense="$q.screen.lt.md"
       :pagination="initialPagination"
+      no-data-label="Não há nenhuma marca nesta fase."
     >
       <template v-slot:header="props">
         <q-tr :props="props">
